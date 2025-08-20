@@ -1,8 +1,8 @@
 <head>
-  <title>Surfside Media</title>
+  <title>E-Commerce</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-  <meta name="author" content="surfside media" />
+  <meta name="author" content="E-Commerce" />
   <link rel="shortcut icon" href="{{asset('front-assets')}}/images/favicon.ico" type="image/x-icon">
   <link rel="preconnect" href="https://fonts.gstatic.com/">
   <link

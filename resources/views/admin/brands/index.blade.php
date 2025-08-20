@@ -65,18 +65,8 @@
                                         <td><a href="#" target="_blank">2</a></td>
                                         <td>
                                             <div class="list-icon-function">
-                                                <a href="{{ route('brand.edit', $brand->id) }}" class="item ">
-                                                    <div class="item edit">
-                                                        <i class="icon-edit-3"></i>
-                                                    </div>
-                                                </a>
-
-                                                <form action="{{ route('brand.destroy', $brand->id) }}" method="post"
-                                                    class="d-inline" >
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="item text-danger delete" onclick="return confirm('Are you sure you want to delete this brand?');"> <i class="icon-trash-2"></i></button>
-                                                </form>
+                                                <x-edit-action href="{{ route('brand.edit', $brand->id) }}" />
+                                                <x-delete-action action="{{ route('brand.destroy', $brand->id) }}" />
                                             </div>
                                         </td>
                                     </tr>

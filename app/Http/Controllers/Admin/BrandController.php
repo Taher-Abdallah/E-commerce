@@ -60,9 +60,9 @@ class BrandController extends Controller
     public function destroy($id)
     {
         $brand = Brand::findOrFail($id);
-        // if(request()->hasFile('image') ) {
-        //     Storage::delete("public/blogs/$brand->image");
-        // }
+        if(request()->hasFile('image') ) {
+            Storage::delete("public/blogs/$brand->image");
+        }
         $brand->delete();
         return redirect()->route('brand.index')->with('success', 'Product deleted successfully!');
     }

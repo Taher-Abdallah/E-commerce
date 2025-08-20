@@ -65,14 +65,12 @@
                 <input type="file" id="myFile" name="image" accept="image/*" onchange="previewImage(event)">
             </label>
         </div>
-
     </div>
 </fieldset>
-
-
                                         <div class="bot">
                                             <div></div>
                                             <button class="tf-button w208" type="submit">Save</button>
+                                            <x-back-action href="{{ route('brand.index') }}" />
                                         </div>
                                     </form>
                                 </div>

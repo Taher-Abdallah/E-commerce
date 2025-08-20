@@ -3,7 +3,7 @@
     <div class="main-content-inner">
         <div class="main-content-wrap">
             <div class="flex items-center flex-wrap justify-between gap20 mb-27">
-                <h3>Brand infomation</h3>
+                <h3>category infomation</h3>
                 <ul class="breadcrumbs flex items-center flex-wrap justify-start gap10">
                     <li>
                         <a href="#">
@@ -15,43 +15,43 @@
                     </li>
                     <li>
                         <a href="#">
-                            <div class="text-tiny">Brands</div>
+                            <div class="text-tiny">categories</div>
                         </a>
                     </li>
                     <li>
                         <i class="icon-chevron-right"></i>
                     </li>
                     <li>
-                        <div class="text-tiny">Edit-Brand</div>
+                        <div class="text-tiny">Edit-category</div>
                     </li>
                 </ul>
             </div>
             <!-- new-category -->
             <div class="wg-box">
-                <form class="form-new-product form-style-1" action="{{ route('brand.update', $brand->id) }}" method="POST" enctype="multipart/form-data">
+                <form class="form-new-product form-style-1" action="{{ route('category.update', $category->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <fieldset class="name">
-                        <div class="body-title">Brand Name <span class="tf-color-1">*</span></div>
-                        <input class="flex-grow" type="text" placeholder="Brand name" name="name" tabindex="0"
-                            value="{{ $brand->name }}" aria-required="true">
+                        <div class="body-title">category Name <span class="tf-color-1">*</span></div>
+                        <input class="flex-grow" type="text" placeholder="category name" name="name" tabindex="0"
+                            value="{{ $category->name }}" aria-required="true">
+                            <x-error-validate field="name" />
                     </fieldset>
-                    <x-error-validate field="name" />
                     <fieldset class="name">
-                        <div class="body-title">Brand Slug <span class="tf-color-1">*</span></div>
-                        <input class="flex-grow" type="text" placeholder="Brand Slug" name="slug" tabindex="0"
-                            value="{{ $brand->slug }}" aria-required="true">
+                        <div class="body-title">category Slug <span class="tf-color-1">*</span></div>
+                        <input class="flex-grow" type="text" placeholder="category Slug" name="slug" tabindex="0"
+                            value="{{ $category->slug }}" aria-required="true">
 
+                            <x-error-validate field="slug" />
                     </fieldset>
-                    <x-error-validate field="slug" />
                     <fieldset>
                         <div class="body-title">Upload images <span class="tf-color-1">*</span></div>
                         <div class="upload-image flex-grow">
 
                             <!-- عرض الصورة الحالية لو موجودة -->
-                            <div class="item" id="imgpreview" style="{{ $brand->image ? '' : 'display:none' }}">
-                                @if ($brand->image)
-                                    <img src="{{ asset('storage/blogs/' . $brand->image) }}" class="effect8" alt="product image">
+                            <div class="item" id="imgpreview" style="{{ $category->image ? '' : 'display:none' }}">
+                                @if ($category->image)
+                                    <img src="{{ asset('storage/blogs/' . $category->image) }}" class="effect8" alt="product image">
                                 @endif
                             </div>
 
@@ -76,7 +76,7 @@
                     <div class="bot">
                         <div></div>
                         <button class="tf-button w208" type="submit">Save</button>
-                                            <x-back-action href="{{ route('brand.index') }}" />
+                                            <x-back-action href="{{ route('category.index') }}" />
 
                     </div>
                 </form>
