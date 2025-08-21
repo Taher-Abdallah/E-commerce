@@ -4,10 +4,10 @@
         <!-- main-content-wrap -->
         <div class="main-content-wrap">
             <div class="flex items-center flex-wrap justify-between gap20 mb-27">
-                <h3>Add Product</h3>
+                <h3>ShowProduct</h3>
                 <ul class="breadcrumbs flex items-center flex-wrap justify-start gap10">
                     <li>
-                        <a href="index-2.html">
+                        <a href="{{ route('admin.dashboard') }}">
                             <div class="text-tiny">Dashboard</div>
                         </a>
                     </li>
@@ -23,7 +23,7 @@
                         <i class="icon-chevron-right"></i>
                     </li>
                     <li>
-                        <div class="text-tiny">Add product</div>
+                        <div class="text-tiny">Show product</div>
                     </li>
                 </ul>
             </div>
@@ -37,7 +37,8 @@
                         <div class="body-title mb-10">Product name <span class="tf-color-1">*</span>
                         </div>
                         <input class="mb-10" type="text" placeholder="Enter product name" name="name" tabindex="0"
-                            value="{{ old('name') }}" aria-required="true">
+                             aria-required="true" value="{{ $product->name }}" readonly>
+                            
                         <div class="text-tiny">Do not exceed 100 characters when entering the
                             product name.</div>
                     </fieldset>
@@ -46,7 +47,7 @@
                     <fieldset class="name">
                         <div class="body-title mb-10">Slug <span class="tf-color-1">*</span></div>
                         <input class="mb-10" type="text" placeholder="Enter product slug" name="slug" tabindex="0"
-                            value="{{ old('slug') }}" aria-required="true">
+                            value="{{ $product->slug }}" aria-required="true">
                         <div class="text-tiny">Do not exceed 100 characters when entering the
                             product name.</div>
                     </fieldset>
@@ -57,10 +58,11 @@
                             <div class="body-title mb-10">Category <span class="tf-color-1">*</span>
                             </div>
                             <div class="select">
-                                <select class="" name="category_id">
+                                <select class="" name="category_id" disabled>
                                     <option>Choose category</option>
                                     @forelse($categories as $category)
-                                        <option value="{{ $category->id }}" @selected(old('category_id') == $category->id) >{{ $category->name }}</option>
+                                        <option value="{{ $category->id }}" 
+                                              @selected($product->category_id == $category->id)>{{ $category->name }}</option>
                                     @empty
                                         <option value="" disabled>No categories found</option>
                                     @endforelse
@@ -73,10 +75,11 @@
                             <div class="body-title mb-10">Brand <span class="tf-color-1">*</span>
                             </div>
                             <div class="select">
-                                <select class="" name="brand_id">
+                                <select class="" name="brand_id" disabled>
                                     <option>Choose Brand</option>
-                                    @forelse ($brands as   $brand)
-                                        <option value="{{ $brand->id }}" @selected(old('brand_id') == $brand->id)>{{ $brand->name }}</option>
+                                    @forelse ($brands as $brand)
+                                        <option value="{{ $brand->id }}"
+                                             @selected($product->brand_id == $brand->id)>{{ $brand->name }}</option>
                                     @empty
                                         <option value="" disabled>No brands found</option>
                                     @endforelse
@@ -91,7 +94,7 @@
                     <fieldset class="shortdescription">
                         <div class="body-title mb-10">Short Description <span class="tf-color-1">*</span></div>
                         <textarea class="mb-10 ht-150" name="short_description" placeholder="Short Description" tabindex="0"
-                            aria-required="true">{{ old('short_description') }}</textarea>
+                            aria-required="true" value=" "readonly>{{ $product->short_description }}</textarea>
                         <div class="text-tiny">Do not exceed 100 characters when entering the
                             product name.</div>
                     </fieldset>
@@ -100,70 +103,71 @@
                     <fieldset class="description">
                         <div class="body-title mb-10">Description <span class="tf-color-1">*</span>
                         </div>
-                        <textarea class="mb-10" name="description" placeholder="Description" tabindex="0" aria-required="true"> {{ old('description') }}</textarea>
+                        <textarea class="mb-10" name="description" placeholder="Description" tabindex="0" aria-required="true"
+                            value="" readonly>{{ $product->description }}</textarea>
                         <div class="text-tiny">Do not exceed 100 characters when entering the
                             product name.</div>
                     </fieldset>
                     <x-error-validate field="description" />
                 </div>
                 <div class="wg-box">
-                    <fieldset>
-                        <div class="body-title">Upload images <span class="tf-color-1">*</span></div>
-                        <div class="upload-image flex-grow">
-
-                            <!-- preview للصورة -->
-                            <div class="item" id="imgpreview" style="display:none">
-                                <img src="" class="effect8" alt="preview image">
-                            </div>
-
-                            <!-- خانة رفع الصورة -->
-                            <div id="upload-file" class="item up-load">
-                                <label class="uploadfile" for="myFile">
-                                    <span class="icon">
-                                        <i class="icon-upload-cloud"></i>
-                                    </span>
-                                    <span class="body-text">
-                                        Drop your images here or select <span class="tf-color">click to browse</span>
-                                    </span>
-                                    <input type="file" id="myFile" name="image" accept="image/*"
-                                        onchange="previewImage(event)">
-                                </label>
-                            </div>
-                        </div>
-                    </fieldset>
-
                    <fieldset>
-    <div class="body-title mb-10">Upload Gallery Images</div>
+    <div class="body-title mb-10">Product Image</div>
     <div class="upload-image mb-16">
-        <div id="galUpload" class="item up-load">
-            <label class="uploadfile" for="gFile">
-                <span class="icon">
-                    <i class="icon-upload-cloud"></i>
-                </span>
-                <span class="text-tiny">
-                    Drop your images here or select <span class="tf-color">click to browse</span>
-                </span>
-                <input type="file" id="gFile" name="images[]" accept="image/*" multiple>
-            </label>
-        </div>
-    </div>
 
-    <!-- مكان عرض الصور -->
-    <div id="preview-images" style="display: flex; gap: 10px; flex-wrap: wrap; margin-top:10px;"></div>
+        @if (isset($product) && $product->image)
+            <!-- preview للصورة -->
+            <div class="item" id="imgpreview">
+                <img src="{{ asset('storage/products/' . $product->image) }}" 
+                     class="effect8" 
+                     alt="preview image"
+                     style="max-width:200px; border-radius:8px; object-fit:cover;">
+            </div>
+
+        @else
+            <p class="text-muted">There is no image for this product   </p>
+ 
+        @endif
+    </div>
 </fieldset>
+
+
+
+
+<fieldset>
+    <div class="body-title mb-10">Gallery Images</div>
+    <div class="upload-image mb-16">
+        @if ($product->images)
+            @php
+                $gallery = explode(',', $product->images);
+            @endphp
+            <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:flex-start;">
+                @foreach ($gallery as $img)
+                    <img src="{{ asset('storage/products/' . $img) }}"
+                         alt="gallery image"
+                         style="width:120px; height:120px; object-fit:cover; border-radius:8px; border:1px solid #ddd;">
+                @endforeach
+            </div>
+        @else
+            <p class="text-muted">There are no images in the gallery</p>
+        @endif
+    </div>
+</fieldset>
+
+
 
 
                     <div class="cols gap22">
                         <fieldset class="name">
                             <div class="body-title mb-10">Regular Price <span class="tf-color-1">*</span></div>
                             <input class="mb-10" type="text" placeholder="Enter regular price" name="price"
-                                tabindex="0" value="{{ old('price') }}" aria-required="true">
+                                tabindex="0" value="{{ $product->price }}" aria-required="true" readonly> >
                             <x-error-validate field="price" />
                         </fieldset>
                         <fieldset class="name">
                             <div class="body-title mb-10">Sale Price <span class="tf-color-1">*</span></div>
                             <input class="mb-10" type="text" placeholder="Enter sale price" name="discount_price"
-                                tabindex="0" value="{{ old('discount_price') }}" aria-required="true">
+                                tabindex="0" value="{{ $product->discount_price }}" aria-required="true" readonly>
                             <x-error-validate field="discount_price" />
                         </fieldset>
                     </div>
@@ -174,14 +178,14 @@
                             <div class="body-title mb-10">SKU <span class="tf-color-1">*</span>
                             </div>
                             <input class="mb-10" type="text" placeholder="Enter SKU" name="SKU" tabindex="0"
-                                value="{{ old('SKU') }}" aria-required="true">
+                                value="{{ $product->SKU }}" aria-required="true" readonly>
                             <x-error-validate field="SKU" />
                         </fieldset>
                         <fieldset class="name">
                             <div class="body-title mb-10">Quantity <span class="tf-color-1">*</span>
                             </div>
                             <input class="mb-10" type="text" placeholder="Enter quantity" name="quantity"
-                                tabindex="0" value="{{ old('quantity') }}" aria-required="true">
+                                tabindex="0" value="{{ $product->quantity }}" aria-required="true" readonly>
                             <x-error-validate field="quantity" />
                         </fieldset>
                     </div>
@@ -190,10 +194,10 @@
                         <fieldset class="name">
                             <div class="body-title mb-10">Stock</div>
                             <div class="select mb-10">
-                                <select class="" name="stock_status">
+                                <select class="" name="stock_status" disabled>
                                     <option value="" selected disabled>-- Select Stock Status --</option>
-                                    <option value="instock" @selected(old('stock_status') == 'instock')>In Stock</option>
-                                    <option value="outofstock" @selected(old('stock_status') == 'outofstock')>Out of Stock</option>
+                                    <option value="instock" @selected($product->stock_status == 'instock')>In Stock</option>
+                                    <option value="outofstock" @selected($product->stock_status == 'outofstock')>Out of Stock</option>
                                 </select>
                             </div>
                             <x-error-validate field="stock_status" />
@@ -201,17 +205,19 @@
                         <fieldset class="name">
                             <div class="body-title mb-10">Featured</div>
                             <div class="select mb-10">
-                                <select class="" name="is_featured">
+                                <select class="" name="is_featured" disabled>
                                     <option value="" selected disabled>-- Select Featured --</option>
-                                    <option value="0" @selected(old('is_featured') == 0) >No</option>
-                                    <option value="1" @selected(old('is_featured') == 1)>Yes</option>
+                                    <option value="0" @selected($product->is_featured == 0) >No</option>
+                                    <option value="1" @selected($product->is_featured == 1) >Yes</option>
                                 </select>
                             </div>
                             <x-error-validate field="is_featured" />
                         </fieldset>
                     </div>
+
                     <div class="cols gap10">
-                        <button class="tf-button w-full" type="submit">Add product</button>
+
+                        <a href="{{ route('product.index') }}" class="tf-button w-full" type="submit">Back To Products</a>
                     </div>
                 </div>
             </form>

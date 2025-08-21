@@ -15,7 +15,47 @@ function previewImage(event) {
     reader.readAsDataURL(event.target.files[0]);
 }
 </script>
+<script>
+    document.getElementById("gFile").addEventListener("change", function(event) {
+        let previewContainer = document.getElementById("preview-images");
+        previewContainer.innerHTML = ""; // يمسح القديم لو عملت اختيار جديد
 
+        // مر على كل الصور المختارة
+        [...event.target.files].forEach(file => {
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                let img = document.createElement("img");
+                img.src = e.target.result;
+                img.style.width = "100px";
+                img.style.height = "100px";
+                img.style.objectFit = "cover";
+                img.style.borderRadius = "8px";
+                img.style.border = "1px solid #ddd";
+                previewContainer.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+        });
+    });
+</script>
+
+<script>
+function previewNewImage(event) {
+    const file = event.target.files[0];
+    if (file) {
+        // اخفاء الصورة القديمة
+        document.getElementById('current-image').style.display = 'none';
+
+        // عرض الصورة الجديدة
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const preview = document.getElementById('preview-img');
+            preview.src = e.target.result;
+            document.getElementById('new-preview').style.display = 'flex';
+        }
+        reader.readAsDataURL(file);
+    }
+}
+</script>
     <script>
         (function ($) {
 

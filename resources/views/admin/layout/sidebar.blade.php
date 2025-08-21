@@ -22,7 +22,7 @@
                         <div class="center-item">
                             <ul class="menu-list">
                                 {{-- product menu --}}
-                                <x-menu-item-children href1="#" href2="#" icon="icon-shopping-cart"
+                                <x-menu-item-children href1="{{ route('product.create') }}" href2="{{ route('product.index') }}" icon="icon-shopping-cart"
                                     name="Products" subname1="Add Product" subname2="Products" />
                                 {{-- brand menu --}}
                                 <x-menu-item-children href1="{{ route('brand.create') }}"

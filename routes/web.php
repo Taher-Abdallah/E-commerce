@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Front\FrontController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
 
 
@@ -36,8 +37,14 @@ Route::delete('/brands/delete/{id}', 'destroy')->name('destroy');
 
 
 
-//=================================================================  ProfileController
-Route::resource('/category', CategoryController::class);
+    //=================================================================  CategoryController
+    Route::resource('/category', CategoryController::class);
+    //================================================================== ProductController
+    Route::resource('/product', ProductController::class);
+    //================================================================== OrderController
+    // Route::resource('/order', OrderController::class);
+    //================================================================== UserController
+    // Route::resource('/user', UserController::class);
 
 });
 

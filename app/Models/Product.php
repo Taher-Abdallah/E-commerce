@@ -11,6 +11,10 @@ class Product extends Model
     use HasFactory;
 
     protected $guarded = [];
+    protected $casts = [
+        'is_featured' => 'boolean',
+        'images' => 'array',
+    ];
 
     public function category()
     {
