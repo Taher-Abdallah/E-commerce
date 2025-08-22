@@ -111,17 +111,25 @@
           <div class="product-single__short-desc">
             <p>{{$product->short_description}}</p>
           </div>
-          <form name="addtocart-form" method="post">
+          @if(Cart::instance('cart')->content()->where('id', $product->id)->count() > 0)
+          <a href="{{ route('front.cart') }}" class="btn btn-warning mb-3">Go to Cart</a>
+          @else
+          <form name="addtocart-form" method="post" action="{{ route('front.cart.add') }}">
+            @csrf
             <div class="product-single__addtocart">
               <div class="qty-control position-relative">
                 <input type="number" name="quantity" value="1" min="1" class="qty-control__number text-center">
                 <div class="qty-control__reduce">-</div>
                 <div class="qty-control__increase">+</div>
               </div><!-- .qty-control -->
-              <button type="submit" class="btn btn-primary btn-addtocart js-open-aside" data-aside="cartDrawer">Add to
+              <input type="hidden" name="id" value="{{ $product->id }}">
+              <input type="hidden" name="name" value="{{ $product->name }}">
+              <input type="hidden" name="price" value="{{ $product->discount_price ?? $product->price }}">
+              <button type="submit" class="btn btn-primary btn-addtocart " data-aside="cartDrawer">Add to
                 Cart</button>
             </div>
           </form>
+          @endif
           <div class="product-single__addtolinks">
             <a href="#" class="menu-link menu-link_us-s add-to-wishlist"><svg width="16" height="16" viewBox="0 0 20 20"
                 fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -411,42 +419,8 @@
             }
           }'>
           <div class="swiper-wrapper">
-            {{-- <div class="swiper-slide product-card">
-              <div class="pc__img-wrapper">
-                <a href="{{ route('front.details', $product->slug) }}">
-                    @foreach (explode(',', $product->images) as $image)
-                      <img loading="lazy" src="{{ asset('storage/products/' . $image) }}" width="330" height="400"
-                        alt="{{ $product->name }}" class="pc__img">
-                        
-                    @endforeach
-                  <img loading="lazy" src="{{asset('front-assets')}}/images/products/product_3.jpg" width="330" height="400"
-                    alt="Cropped Faux leather Jacket" class="pc__img">
-                  <img loading="lazy" src="{{asset('front-assets')}}/images/products/product_3-1.jpg" width="330" height="400"
-                    alt="Cropped Faux leather Jacket" class="pc__img pc__img-second">
-                </a>
-                <button
-                  class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                  data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
-              </div>
 
-              <div class="pc__info position-relative">
-                <p class="pc__category">{{ $product->category->name }}</p>
-                <h6 class="pc__title"><a href="{{ route('front.details', $product->slug) }}">{{ $product->name }}</a></h6>
-                <div class="product-card__price d-flex">
-                  <span class="money price">${{ $product->price }}</span>
-                </div>
 
-                <button class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
-                  title="Add To Wishlist">
-                  <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <use href="#icon_heart" />
-                  </svg>
-                </button>
-              </div>
-            </div> --}}
-                        @if ($product->slug == $products[0]->slug)
-                
-            @endif
             @foreach ($relatedProducts as $product) 
             <div class="swiper-slide product-card">
                 <div class="pc__img-wrapper">
@@ -455,9 +429,21 @@
                     alt="Cropped Faux leather Jacket" class="pc__img">
 
                 </a>
-                <button
-                  class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
+
+                @if(Cart::instance('cart')->content()->where('id', $product->id)->count() > 0)
+          <a href="{{ route('front.cart') }}" class=" pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium  btn-warning mb-3">Go to Cart</a>
+          @else
+          <form name="addtocart-form" method="post" action="{{ route('front.cart.add') }}">
+            @csrf
+            <input type="hidden" name="id" value="{{ $product->id }}">
+            <input type="hidden" name="name" value="{{ $product->name }}">
+            <input type="hidden" name="price" value="{{ $product->discount_price ?? $product->price }}">
+            <input type="hidden" name="quantity" value="1">
+                <button type="submit"
+                  class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium "
                   data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
+          </form>
+          @endif
               </div>
               
               <div class="pc__info position-relative">
