@@ -242,7 +242,7 @@
 
       <div class="logo">
         <a href="index.html">
-          <img src="{{asset('front-assets')}}/images/logo.png" alt="Uomo" class="logo__image d-block" />
+          <img src="{{asset('admin-assets')}}/images/logo/taher-logo.png" alt="Uomo" class="logo__image d-block" />
         </a>
       </div>
 
@@ -362,7 +362,7 @@
       <div class="header-desk header-desk_type_1">
         <div class="logo">
           <a href="{{ route('front.home') }}" class="logo__link">
-            <img src="{{asset('front-assets')}}/images/logo.png" alt="Uomo" class="logo__image d-block" />
+            <img src="{{asset('admin-assets')}}/images/logo/taher.png" alt="Uomo" class="logo__image d-block" />
           </a>
         </div>
 

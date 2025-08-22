@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Front\ShopController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Front\FrontController;
@@ -9,10 +10,12 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
 
 
+Route::get('/shop', [ShopController::class, 'index'])->name('front.shop');
+Route::get('/shop/{slug}/details', [ShopController::class, 'show'])->name('front.details');
+
 //=================================================================Front Controller
 Route::controller(FrontController::class)->group(function () {
     Route::get('/', 'index')->name('front.home');
-    Route::get('/shop', 'shop')->name('front.shop');
     Route::get('/about', 'about')->name('front.about');
     Route::get('/contact', 'contact')->name('front.contact');
     Route::post('/contact/store', 'contactStore')->name('front.contact.store');
