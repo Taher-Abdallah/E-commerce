@@ -14,6 +14,7 @@
   @include('front.layout.footer')
 
  @include('front.layout.script')
+ @stack('scripts')
 </body>
 
 </html>

@@ -10,9 +10,15 @@ use App\Http\Controllers\Front\FrontController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
 
+Route::controller(CartController::class)->prefix('/cart')->name('front.')->group(function () {
+    Route::get('', 'index')->name('cart');
+    Route::post('/add', 'add')->name('cart.add');
+    Route::put('/increase-qty/{rowId}', 'increase')->name('cart.increase');
+    Route::put('/decrease-qty/{rowId}', 'decrease')->name('cart.decrease');
+    Route::delete('/remove/{rowId}', 'remove')->name('cart.remove');
+    Route::delete('/delete-all/{rowId}', 'deleteAll')->name('cart.delete.all');
+});
 
-Route::get('/cart', [CartController::class, 'index'])->name('front.cart');
-Route::post('/cart/add', [CartController::class, 'add'])->name('front.cart.add');
 
 //=================================================================Shop Controller
 Route::get('/shop', [ShopController::class, 'index'])->name('front.shop');
