@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Models\Brand;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -11,7 +12,10 @@ class ShopController extends Controller
     public function index()
     {
         $products = Product::orderBy('id', 'desc')->paginate(9);
-        return view('front.shop', compact('products'));
+        $brands = Brand::withCount('products')
+            ->has('products')
+            ->get();
+        return view('front.shop', get_defined_vars());
     }
 
     public function show($slug)

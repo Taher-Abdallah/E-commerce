@@ -1,5 +1,12 @@
   @extends('front.master')
     @section('content')
+    <style>
+.filled-heart {
+    color: red;
+}
+
+
+    </style>
   
   
   <main class="pt-90">
@@ -151,6 +158,7 @@
               aria-labelledby="accordion-heading-brand" data-bs-parent="#brand-filters">
               <div class="search-field multi-select accordion-body px-0 pb-0">
                 <select class="d-none" multiple name="total-numbers-list">
+
                   <option value="1">Adidas</option>
                   <option value="2">Balmain</option>
                   <option value="3">Balenciaga</option>
@@ -165,34 +173,14 @@
                     placeholder="Search" />
                 </div>
                 <ul class="multi-select__list list-unstyled">
-                  <li class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                    <span class="me-auto">Adidas</span>
-                    <span class="text-secondary">2</span>
-                  </li>
-                  <li class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                    <span class="me-auto">Balmain</span>
-                    <span class="text-secondary">7</span>
-                  </li>
-                  <li class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                    <span class="me-auto">Balenciaga</span>
-                    <span class="text-secondary">10</span>
-                  </li>
-                  <li class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                    <span class="me-auto">Burberry</span>
-                    <span class="text-secondary">39</span>
-                  </li>
-                  <li class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                    <span class="me-auto">Kenzo</span>
-                    <span class="text-secondary">95</span>
-                  </li>
-                  <li class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                    <span class="me-auto">Givenchy</span>
-                    <span class="text-secondary">1092</span>
-                  </li>
-                  <li class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                    <span class="me-auto">Zara</span>
-                    <span class="text-secondary">48</span>
-                  </li>
+                  @foreach ($brands as $brand)
+                    <li class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
+                      <span class="me-auto">{{ $brand->name }}</span>
+                      <span class="text-secondary">{{ $brand->products->count() }}</span>
+                    </li>
+                    
+                  @endforeach
+
                 </ul>
               </div>
             </div>
@@ -390,7 +378,8 @@
                     </svg></span>
                 </div>
                           @if(Cart::instance('cart')->content()->where('id', $product->id)->count() > 0)
-          <a href="{{ route('front.cart') }}" class=" pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium  btn-warning mb-3">Go to Cart</a>
+          <a href="{{ route('front.cart') }}" class=" pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase 
+          fw-medium  btn-warning mb-3">Go to Cart</a>
           @else
           <form name="addtocart-form" method="post" action="{{ route('front.cart.add') }}">
             @csrf
@@ -438,13 +427,41 @@
                   </div>
                   <span class="reviews-note text-lowercase text-secondary ms-1">8k+ reviews</span>
                 </div>
+                {{-- if cart item exists in wishlist --}}
+              @if (Cart::instance('wishlist')->content()->where('id', $product->id)->count() > 0)
+              {{-- to remove from wishlist --}}
+              <form method="post" action="{{ route('front.wishlist.remove',
+               [Cart::instance('wishlist')->content()->where('id', $product->id)->first()->rowId]) }}">
+                @csrf
+                @method('DELETE')
 
-                <button class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
-                  title="Add To Wishlist">
-                  <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <use href="#icon_heart" />
-                  </svg>
-                </button>
+<button type="submit" 
+    class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist filled-heart" 
+    title="Added To Wishlist">
+    <svg class="wishlist-icon active" width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+        <use href="#icon_heart"></use>
+    </svg>
+</button>
+</form>
+@else
+              {{-- to add to wishlist --}}
+<form method="post" action="{{ route('front.wishlist.add') }}">
+    @csrf
+    <input type="hidden" name="id" value="{{ $product->id }}">
+    <input type="hidden" name="name" value="{{ $product->name }}">
+    <input type="hidden" name="price" value="{{ $product->discount_price ?? $product->price }}">
+    <input type="hidden" name="quantity" value="1">
+    <button type="submit" 
+        class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
+        title="Add To Wishlist">
+        <svg class="wishlist-icon" width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <use href="#icon_heart"></use>
+        </svg>
+    </button>
+</form>
+@endif
+
+
               </div>
             </div>
           </div>

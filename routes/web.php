@@ -9,7 +9,9 @@ use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Front\FrontController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Front\WishlistController;
 
+//=================================================================Cart Controller
 Route::controller(CartController::class)->prefix('/cart')->name('front.')->group(function () {
     Route::get('', 'index')->name('cart');
     Route::post('/add', 'add')->name('cart.add');
@@ -18,7 +20,15 @@ Route::controller(CartController::class)->prefix('/cart')->name('front.')->group
     Route::delete('/remove/{rowId}', 'remove')->name('cart.remove');
     Route::delete('/delete-all/{rowId}', 'deleteAll')->name('cart.delete.all');
 });
+// ================================================================WishlistController
+Route::controller(WishlistController::class)->prefix('/wishlist')->name('front.')->group(function () {
+    Route::get('', 'index')->name('wishlist');
+    Route::post('/add', 'add')->name('wishlist.add');
+    Route::delete('/remove/{rowId}', 'remove')->name('wishlist.remove');
+    Route::delete('/removeAll', 'removeAll')->name('wishlist.remove.all');
+    Route::post('/move-to-cart/{rowId}', 'moveToCart')->name('wishlist.move.to.cart');
 
+});
 
 //=================================================================Shop Controller
 Route::get('/shop', [ShopController::class, 'index'])->name('front.shop');
