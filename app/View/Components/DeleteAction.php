@@ -11,9 +11,9 @@ class DeleteAction extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct( public string $action )
+    public function __construct( public string $action , public string $name)
     {
-        //
+        $this->name = $name;
     }
 
     /**

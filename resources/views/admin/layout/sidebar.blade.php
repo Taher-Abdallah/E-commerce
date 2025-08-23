@@ -38,7 +38,7 @@
 
                                 <x-menu-item href="#" icon="icon-image" name="Slider" />
 
-                                <x-menu-item href="#" icon="icon-grid" name="Coupns" />
+                                <x-menu-item href="{{ route('coupon.index') }}" icon="icon-grid" name="Coupns" />
 
                                 <x-menu-item href="#" icon="icon-user" name="User" />
                                 <x-menu-item href="#" icon="icon-settings" name="Settings" />

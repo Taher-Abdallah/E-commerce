@@ -7,6 +7,7 @@ use App\Http\Controllers\Front\ShopController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Front\FrontController;
+use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Front\WishlistController;
@@ -64,6 +65,8 @@ Route::delete('/brands/delete/{id}', 'destroy')->name('destroy');
     Route::resource('/category', CategoryController::class);
     //================================================================== ProductController
     Route::resource('/product', ProductController::class);
+    //================================================================== CouponController
+    Route::resource('/coupon', CouponController::class);
     //================================================================== OrderController
     // Route::resource('/order', OrderController::class);
     //================================================================== UserController
